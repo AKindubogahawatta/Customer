@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart - Shoe Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">Shoe<span>Shop</span></div>
+
+  <nav>
+    <a href="index.html">Shop</a>
+    <a href="cart.html">Cart 🛒 <span id="cartCount">0</span></a>
+  </nav>
+
+  <div id="authArea"></div>
+</header>
+
+<section class="section">
+  <h2>Your Cart</h2>
+
+  <div id="cartItems"></div>
+
+  <h3 class="total">Total: £<span id="total">0.00</span></h3>
+
+  <button onclick="placeOrder()" class="checkout-btn">
+    Place Order
+  </button>
+</section>
+
+<div id="loginPopup" class="popup">
+  <div class="popup-box">
+    <span onclick="closeLoginPopup()" class="close">&times;</span>
+    <h2>Login / Register</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <button onclick="register()" class="yellow">Register</button>
+  </div>
+</div>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="cart.js"></script>
+
+</body>
+</html>
