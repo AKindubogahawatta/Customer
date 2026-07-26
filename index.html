@@ -1,45 +1,397 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Shoe Shop</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Shoe Culture | Home</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="logo">Shoe<span>Shop</span></div>
+  <!-- Navigation -->
+  <header class="customer-header">
+    <a href="index.html" class="customer-logo">
+      SHOE<span>CULTURE</span>
+    </a>
 
-  <nav>
-    <a href="index.html">Shop</a>
-    <a href="cart.html">Cart 🛒 <span id="cartCount">0</span></a>
-  </nav>
+    <button
+      id="mobileMenuButton"
+      class="mobile-menu-button"
+      type="button"
+      aria-label="Open navigation menu"
+    >
+      ☰
+    </button>
 
-  <div id="authArea"></div>
-</header>
+    <nav id="customerNavigation" class="customer-navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="menu.html">Shop</a>
+      <a href="#about">About</a>
+      <a href="#location">Location</a>
+      <a href="#contact">Contact</a>
+      <a href="orders.html">My Orders</a>
 
-<section class="hero">
-  <h1>Step Into Style</h1>
-  <p>Premium shoes for comfort, fashion and sports.</p>
-</section>
+      <a href="cart.html" class="cart-navigation-link">
+        Cart
+        <span id="cartCount" class="cart-count">0</span>
+      </a>
+    </nav>
+  </header>
 
-<section class="section">
-  <h2>Latest Shoes</h2>
-  <div id="productsContainer" class="product-grid"></div>
-</section>
+  <!-- Hero -->
+  <main>
 
-<div id="loginPopup" class="popup">
-  <div class="popup-box">
-    <span onclick="closeLoginPopup()" class="close">&times;</span>
-    <h2>Login / Register</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <button onclick="register()" class="yellow">Register</button>
-  </div>
-</div>
+    <section class="home-hero">
+      <div class="hero-overlay"></div>
 
-<script type="module" src="auth.js"></script>
-<script type="module" src="shop.js"></script>
+      <div class="hero-content">
+        <p class="hero-small-title">
+          WALK YOUR OWN WAY
+        </p>
+
+        <h1>
+          More Than Shoes.<br>
+          It Is a Culture.
+        </h1>
+
+        <p>
+          Discover footwear that brings together comfort,
+          confidence and personal style.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="menu.html" class="primary-link">
+            View Our Shoes
+          </a>
+
+          <a href="#about" class="outline-link">
+            Discover Our Story
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Introduction -->
+    <section id="about" class="content-section about-section">
+
+      <div class="section-title">
+        <p>OUR STORY</p>
+
+        <h2>Welcome to Shoe Culture</h2>
+      </div>
+
+      <div class="about-layout">
+
+        <div class="about-image">
+          <img
+            src="images/culture-1.jpg"
+            alt="Collection of fashionable shoes"
+          >
+        </div>
+
+        <div class="about-content">
+          <h3>
+            Every step tells a story
+          </h3>
+
+          <p>
+            Shoe Culture was created for people who see shoes as
+            more than something they wear. Shoes can show
+            personality, confidence, creativity and lifestyle.
+          </p>
+
+          <p>
+            Our shop brings together modern designs, everyday
+            comfort and dependable quality. Whether you need
+            casual shoes, sports footwear or a pair for a special
+            occasion, our goal is to help you find the right style.
+          </p>
+
+          <a href="menu.html" class="text-link">
+            Explore our collection →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Shoe culture -->
+    <section class="culture-section">
+
+      <div class="culture-content">
+        <p class="section-label">SHOE CULTURE</p>
+
+        <h2>
+          Style begins from the ground up
+        </h2>
+
+        <p>
+          Shoes have always represented movement, identity and
+          self-expression. From classic trainers to modern streetwear,
+          every design has its own history and purpose.
+        </p>
+
+        <p>
+          We carefully select products that can become part of your
+          daily life—not only something you wear once, but footwear
+          that supports your journey.
+        </p>
+
+        <div class="culture-features">
+
+          <div class="culture-feature">
+            <strong>Comfort</strong>
+            <span>Designed for everyday movement</span>
+          </div>
+
+          <div class="culture-feature">
+            <strong>Quality</strong>
+            <span>Carefully selected footwear</span>
+          </div>
+
+          <div class="culture-feature">
+            <strong>Style</strong>
+            <span>Looks for every personality</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="culture-image">
+        <img
+          src="images/culture-2.jpg"
+          alt="Stylish trainers representing shoe culture"
+        >
+      </div>
+
+    </section>
+
+    <!-- Categories -->
+    <section class="content-section">
+
+      <div class="section-title">
+        <p>SHOP BY STYLE</p>
+        <h2>Find your perfect pair</h2>
+      </div>
+
+      <div class="home-category-grid">
+
+        <a href="menu.html?category=Men" class="home-category-card">
+          <div class="category-icon">👟</div>
+          <h3>Men</h3>
+          <p>Modern shoes for work, weekends and everyday life.</p>
+          <span>Shop Men →</span>
+        </a>
+
+        <a href="menu.html?category=Women" class="home-category-card">
+          <div class="category-icon">👠</div>
+          <h3>Women</h3>
+          <p>Comfortable and fashionable footwear for every style.</p>
+          <span>Shop Women →</span>
+        </a>
+
+        <a href="menu.html?category=Sports" class="home-category-card">
+          <div class="category-icon">🏃</div>
+          <h3>Sports</h3>
+          <p>Supportive footwear created for active lifestyles.</p>
+          <span>Shop Sports →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="shop-benefits">
+
+      <div class="benefit-item">
+        <div class="benefit-icon">✓</div>
+        <div>
+          <h3>Quality Products</h3>
+          <p>Footwear selected for style and comfort.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🚚</div>
+        <div>
+          <h3>Reliable Delivery</h3>
+          <p>Order online and receive your shoes safely.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">☎</div>
+        <div>
+          <h3>Customer Support</h3>
+          <p>Contact our team when you need assistance.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Shop information -->
+    <section id="location" class="content-section">
+
+      <div class="section-title">
+        <p>VISIT US</p>
+        <h2>Our shop</h2>
+      </div>
+
+      <div class="shop-information-layout">
+
+        <div class="shop-photo">
+          <img
+            src="images/shop.jpg"
+            alt="Shoe Culture shop"
+          >
+        </div>
+
+        <div class="shop-information-card">
+
+          <div class="shop-detail">
+            <span class="detail-icon">📍</span>
+
+            <div>
+              <h3>Location</h3>
+
+              <p>
+                123 High Street<br>
+                Preston, United Kingdom<br>
+                PR1 1AB
+              </p>
+            </div>
+          </div>
+
+          <div class="shop-detail">
+            <span class="detail-icon">🕒</span>
+
+            <div>
+              <h3>Opening Hours</h3>
+
+              <p>
+                Monday – Saturday: 9:00 AM – 6:00 PM<br>
+                Sunday: 10:00 AM – 4:00 PM
+              </p>
+            </div>
+          </div>
+
+          <div class="shop-detail">
+            <span class="detail-icon">☎</span>
+
+            <div>
+              <h3>Telephone</h3>
+              <p>+44 1234 567890</p>
+            </div>
+          </div>
+
+          <div class="shop-detail">
+            <span class="detail-icon">✉</span>
+
+            <div>
+              <h3>Email</h3>
+              <p>hello@shoeculture.co.uk</p>
+            </div>
+          </div>
+
+          <a
+            href="https://maps.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="primary-link"
+          >
+            Open in Google Maps
+          </a>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+
+      <div class="contact-content">
+        <p class="section-label">CONTACT US</p>
+
+        <h2>Need help choosing your shoes?</h2>
+
+        <p>
+          Our team is available to assist you with products,
+          sizing, orders and delivery questions.
+        </p>
+      </div>
+
+      <div class="contact-buttons">
+        <a
+          href="tel:+441234567890"
+          class="primary-link"
+        >
+          Call the Shop
+        </a>
+
+        <a
+          href="mailto:hello@shoeculture.co.uk"
+          class="outline-dark-link"
+        >
+          Send an Email
+        </a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="customer-footer">
+
+    <div class="footer-grid">
+
+      <div>
+        <a href="index.html" class="footer-logo">
+          SHOE<span>CULTURE</span>
+        </a>
+
+        <p>
+          Footwear for comfort, confidence and personal style.
+        </p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+
+        <a href="index.html">Home</a>
+        <a href="menu.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="orders.html">My Orders</a>
+      </div>
+
+      <div>
+        <h3>Contact</h3>
+
+        <p>+44 1234 567890</p>
+        <p>hello@shoeculture.co.uk</p>
+        <p>Preston, United Kingdom</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span id="currentYear"></span> Shoe Culture.
+        All rights reserved.
+      </p>
+    </div>
+
+  </footer>
+
+  <script type="module" src="home.js"></script>
 
 </body>
 </html>
