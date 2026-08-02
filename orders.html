@@ -1,36 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Orders - Shoe Shop</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>My Orders | Shoe Culture</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="logo">Shoe<span>Shop</span></div>
+<header class="customer-header">
 
-  <nav>
-    <a href="index.html">Shop</a>
-    <a href="cart.html">Cart 🛒 <span id="cartCount">0</span></a>
+  <a href="index.html" class="customer-logo">
+    SHOE<span>CULTURE</span>
+  </a>
+
+  <button
+      id="mobileMenuButton"
+      class="mobile-menu-button"
+      type="button"
+      aria-label="Open navigation menu"
+    >
+      ☰
+    </button>
+
+  <nav id="customerNavigation" class="customer-navigation">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Shop</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#location">Location</a>
+
+    <a href="index.html#contact">Contact</a>
+    <a href="orders.html">My Orders</a>
+
+    <a
+      href="cart.html" class="cart-navigation-link">
+      Cart
+      <span id="cartCount" class="cart-count">0</span>
+    </a>
+    <div id="authArea"></div>
   </nav>
 
-  <div id="authArea"></div>
 </header>
 
-<section class="section">
-  <h2>My Orders</h2>
-  <div id="ordersContainer"></div>
-</section>
+<main>
 
+  <section class="customer-orders-section">
+
+    <div class="customer-orders-heading">
+      <p class="section-label">
+        YOUR ACCOUNT
+      </p>
+
+      <h1>My Orders</h1>
+
+      <p>
+        View your current and previous orders.
+      </p>
+    </div>
+
+    <div id="ordersLoginRequired" class="orders-login-required">
+
+      <div class="orders-login-icon">
+        👤
+      </div>
+
+      <h2>Login to see your orders</h2>
+
+      <p>
+        Existing customers can log in, or new customers
+        can create an account.
+      </p>
+
+      <div class="orders-auth-buttons">
+
+        <button
+          type="button"
+          class="primary-auth-button"
+          onclick="openLoginPopup('login')"
+        >
+          Login
+        </button>
+
+        <button
+          type="button"
+          class="secondary-auth-button"
+          onclick="openLoginPopup('register')"
+        >
+          Register
+        </button>
+
+      </div>
+
+    </div>
+
+    <div
+      id="ordersLoading"
+      class="orders-loading"
+      style="display: none;"
+    >
+      Loading your orders...
+    </div>
+
+    <div
+      id="ordersContainer"
+      class="customer-orders-container"
+      style="display: none;"
+    ></div>
+
+  </section>
+
+</main>
+
+<!-- Login and register popup -->
 <div id="loginPopup" class="popup">
+
   <div class="popup-box">
-    <span onclick="closeLoginPopup()" class="close">&times;</span>
-    <h2>Login / Register</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <button onclick="register()" class="yellow">Register</button>
+
+    <button
+      type="button"
+      class="close"
+      onclick="closeLoginPopup()"
+    >
+      &times;
+    </button>
+
+    <div class="auth-tabs">
+
+      <button
+        id="loginTabButton"
+        type="button"
+        class="auth-tab active"
+        onclick="setAuthMode('login')"
+      >
+        Login
+      </button>
+
+      <button
+        id="registerTabButton"
+        type="button"
+        class="auth-tab"
+        onclick="setAuthMode('register')"
+      >
+        Register
+      </button>
+
+    </div>
+
+    <h2 id="authPopupTitle">
+      Welcome Back
+    </h2>
+
+    <p id="authPopupDescription">
+      Log in to view your previous orders.
+    </p>
+
+    <label for="email">
+      Email address
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+    >
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Minimum 6 characters"
+    >
+
+    <p id="authMessage" class="auth-message"></p>
+
+    <button
+      id="loginSubmitButton"
+      type="button"
+      class="auth-submit-button"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+    <button
+      id="registerSubmitButton"
+      type="button"
+      class="auth-submit-button register-submit-button"
+      onclick="register()"
+      style="display: none;"
+    >
+      Create Account
+    </button>
+
   </div>
+
 </div>
 
 <script type="module" src="auth.js"></script>

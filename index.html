@@ -42,6 +42,8 @@
         Cart
         <span id="cartCount" class="cart-count">0</span>
       </a>
+
+      <div id="authArea"></div>
     </nav>
   </header>
 
@@ -392,6 +394,96 @@
   </footer>
 
   <script type="module" src="home.js"></script>
+
+  <div id="loginPopup" class="popup">
+
+  <div class="popup-box">
+
+    <button
+      type="button"
+      class="close"
+      onclick="closeLoginPopup()"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+
+    <div class="auth-tabs">
+
+      <button
+        id="loginTabButton"
+        type="button"
+        class="auth-tab active"
+        onclick="setAuthMode('login')"
+      >
+        Login
+      </button>
+
+      <button
+        id="registerTabButton"
+        type="button"
+        class="auth-tab"
+        onclick="setAuthMode('register')"
+      >
+        Register
+      </button>
+
+    </div>
+
+    <h2 id="authPopupTitle">
+      Welcome Back
+    </h2>
+
+    <p id="authPopupDescription">
+      Log in to place orders and view your previous orders.
+    </p>
+
+    <label for="email">
+      Email address
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+      autocomplete="email"
+    >
+
+    <label for="password">
+      Password
+    </label>
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Minimum 6 characters"
+      autocomplete="current-password"
+    >
+
+    <p id="authMessage" class="auth-message"></p>
+
+    <button
+      id="loginSubmitButton"
+      type="button"
+      class="auth-submit-button"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+    <button
+      id="registerSubmitButton"
+      type="button"
+      class="auth-submit-button register-submit-button"
+      onclick="register()"
+      style="display: none;"
+    >
+      Create Account
+    </button>
+
+  </div>
+
+</div>
 
 </body>
 </html>

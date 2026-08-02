@@ -11,7 +11,7 @@ import {
 
 /*
 |--------------------------------------------------------------------------
-| Local Storage configuration
+| Cart storage key
 |--------------------------------------------------------------------------
 */
 
@@ -108,17 +108,20 @@ function saveCart(cart) {
 
 /*
 |--------------------------------------------------------------------------
-| Calculate cart item quantity
+| Total quantity
 |--------------------------------------------------------------------------
 */
 
 function getTotalItemQuantity(cart) {
   return cart.reduce(
-    (totalQuantity, item) => {
-      const quantity =
-        Number(item.quantity || 1);
-
-      return totalQuantity + quantity;
+    (total, item) => {
+      return (
+        total +
+        Math.max(
+          1,
+          Number(item.quantity || 1)
+        )
+      );
     },
     0
   );
@@ -126,7 +129,7 @@ function getTotalItemQuantity(cart) {
 
 /*
 |--------------------------------------------------------------------------
-| Calculate cart total
+| Calculate total
 |--------------------------------------------------------------------------
 */
 
@@ -137,7 +140,10 @@ function calculateCartTotal(cart) {
         Number(item.price || 0);
 
       const quantity =
-        Number(item.quantity || 1);
+        Math.max(
+          1,
+          Number(item.quantity || 1)
+        );
 
       return total + price * quantity;
     },
@@ -147,20 +153,19 @@ function calculateCartTotal(cart) {
 
 /*
 |--------------------------------------------------------------------------
-| Update navigation cart count
+| Update cart badge
 |--------------------------------------------------------------------------
 */
 
 function updateCartCount() {
+  if (!cartCountElement) {
+    return;
+  }
+
   const cart = getCart();
 
-  const totalQuantity =
+  cartCountElement.textContent =
     getTotalItemQuantity(cart);
-
-  if (cartCountElement) {
-    cartCountElement.textContent =
-      totalQuantity;
-  }
 }
 
 /*
@@ -177,7 +182,7 @@ function displayCart() {
   const total =
     calculateCartTotal(cart);
 
-  const totalQuantity =
+  const itemQuantity =
     getTotalItemQuantity(cart);
 
   totalElement.textContent =
@@ -190,8 +195,8 @@ function displayCart() {
 
   if (summaryItemCount) {
     summaryItemCount.textContent =
-      `${totalQuantity} ${
-        totalQuantity === 1
+      `${itemQuantity} ${
+        itemQuantity === 1
           ? "item"
           : "items"
       }`;
@@ -203,6 +208,7 @@ function displayCart() {
     displayEmptyCart();
 
     placeOrderButton.disabled = true;
+
     placeOrderButton.textContent =
       "Your Cart Is Empty";
 
@@ -210,6 +216,7 @@ function displayCart() {
   }
 
   placeOrderButton.disabled = false;
+
   placeOrderButton.textContent =
     "Place Order";
 
@@ -225,7 +232,7 @@ function displayCart() {
 
 /*
 |--------------------------------------------------------------------------
-| Display empty cart
+| Empty cart
 |--------------------------------------------------------------------------
 */
 
@@ -256,7 +263,7 @@ function displayEmptyCart() {
 
 /*
 |--------------------------------------------------------------------------
-| Create cart item
+| Create cart product
 |--------------------------------------------------------------------------
 */
 
@@ -276,6 +283,11 @@ function createCartItem(item, index) {
       item.image || ""
     );
 
+  const category =
+    escapeHtml(
+      item.category || ""
+    );
+
   const price =
     Number(item.price || 0);
 
@@ -285,16 +297,14 @@ function createCartItem(item, index) {
       Number(item.quantity || 1)
     );
 
+  const availableStock =
+    Math.max(
+      0,
+      Number(item.stock || 0)
+    );
+
   const itemTotal =
     price * quantity;
-
-  const availableStock =
-    Number(item.stock || 0);
-
-  const stockText =
-    availableStock > 0
-      ? `${availableStock} available`
-      : "";
 
   cartItem.innerHTML = `
     <div class="cart-item-image">
@@ -311,10 +321,10 @@ function createCartItem(item, index) {
       <h3>${productName}</h3>
 
       ${
-        item.category
+        category
           ? `
             <p class="cart-item-category">
-              ${escapeHtml(item.category)}
+              ${category}
             </p>
           `
           : ""
@@ -325,10 +335,10 @@ function createCartItem(item, index) {
       </p>
 
       ${
-        stockText
+        availableStock > 0
           ? `
             <p class="cart-stock-information">
-              ${stockText}
+              ${availableStock} available
             </p>
           `
           : ""
@@ -356,9 +366,7 @@ function createCartItem(item, index) {
           −
         </button>
 
-        <span>
-          ${quantity}
-        </span>
+        <span>${quantity}</span>
 
         <button
           type="button"
@@ -391,41 +399,23 @@ function createCartItem(item, index) {
     }
   );
 
-  const increaseButton =
-    cartItem.querySelector(
-      '[data-action="increase"]'
-    );
-
-  const decreaseButton =
-    cartItem.querySelector(
-      '[data-action="decrease"]'
-    );
-
-  const removeButton =
-    cartItem.querySelector(
-      '[data-action="remove"]'
-    );
-
-  increaseButton.addEventListener(
-    "click",
-    () => {
+  cartItem
+    .querySelector('[data-action="increase"]')
+    .addEventListener("click", () => {
       increaseQty(index);
-    }
-  );
+    });
 
-  decreaseButton.addEventListener(
-    "click",
-    () => {
+  cartItem
+    .querySelector('[data-action="decrease"]')
+    .addEventListener("click", () => {
       decreaseQty(index);
-    }
-  );
+    });
 
-  removeButton.addEventListener(
-    "click",
-    () => {
+  cartItem
+    .querySelector('[data-action="remove"]')
+    .addEventListener("click", () => {
       removeItem(index);
-    }
-  );
+    });
 
   return cartItem;
 }
@@ -438,7 +428,6 @@ function createCartItem(item, index) {
 
 function increaseQty(index) {
   const cart = getCart();
-
   const item = cart[index];
 
   if (!item) {
@@ -446,10 +435,16 @@ function increaseQty(index) {
   }
 
   const currentQuantity =
-    Number(item.quantity || 1);
+    Math.max(
+      1,
+      Number(item.quantity || 1)
+    );
 
   const availableStock =
-    Number(item.stock || 0);
+    Math.max(
+      0,
+      Number(item.stock || 0)
+    );
 
   if (
     availableStock > 0 &&
@@ -480,7 +475,6 @@ function increaseQty(index) {
 
 function decreaseQty(index) {
   const cart = getCart();
-
   const item = cart[index];
 
   if (!item) {
@@ -488,7 +482,10 @@ function decreaseQty(index) {
   }
 
   const currentQuantity =
-    Number(item.quantity || 1);
+    Math.max(
+      1,
+      Number(item.quantity || 1)
+    );
 
   if (currentQuantity > 1) {
     item.quantity =
@@ -503,7 +500,7 @@ function decreaseQty(index) {
 
 /*
 |--------------------------------------------------------------------------
-| Remove item
+| Remove product
 |--------------------------------------------------------------------------
 */
 
@@ -538,20 +535,29 @@ async function placeOrder() {
   const user =
     auth.currentUser;
 
-  if (!user) {
+if (!user) {
+  if (typeof window.openLoginPopup === "function") {
+    window.openLoginPopup("login");
+
+    setTimeout(() => {
+      const authMessage =
+        document.getElementById("authMessage");
+
+      if (authMessage) {
+        authMessage.textContent =
+          "Please login or register before placing your order.";
+
+        authMessage.classList.add("auth-error");
+      }
+    }, 0);
+  } else {
     alert(
-      "Please log in before placing your order."
+      "Please login or register before placing your order."
     );
-
-    if (
-      typeof window.openLoginPopup ===
-      "function"
-    ) {
-      window.openLoginPopup();
-    }
-
-    return;
   }
+
+  return;
+}
 
   const cart = getCart();
 
@@ -584,7 +590,10 @@ async function placeOrder() {
           Number(item.price || 0),
 
         quantity:
-          Number(item.quantity || 1)
+          Math.max(
+            1,
+            Number(item.quantity || 1)
+          )
       }));
 
     await addDoc(
@@ -634,19 +643,13 @@ async function placeOrder() {
       error
     );
 
-    if (
-      error.code ===
-      "permission-denied"
-    ) {
+    if (error.code === "permission-denied") {
       alert(
         "Permission denied. Please check your Firestore rules."
       );
-    } else if (
-      error.code ===
-      "unavailable"
-    ) {
+    } else if (error.code === "unavailable") {
       alert(
-        "Unable to connect to Firebase. Please check your internet connection."
+        "Firebase is unavailable. Check your internet connection."
       );
     } else {
       alert(
@@ -660,7 +663,7 @@ async function placeOrder() {
 
 /*
 |--------------------------------------------------------------------------
-| Checkout loading state
+| Checkout loading
 |--------------------------------------------------------------------------
 */
 
@@ -716,7 +719,7 @@ function showNotification(
 
 /*
 |--------------------------------------------------------------------------
-| Mobile menu
+| Mobile navigation
 |--------------------------------------------------------------------------
 */
 
@@ -731,20 +734,19 @@ if (
         "visible"
       );
 
-      const isVisible =
+      mobileMenuButton.textContent =
         customerNavigation.classList.contains(
           "visible"
-        );
-
-      mobileMenuButton.textContent =
-        isVisible ? "✕" : "☰";
+        )
+          ? "✕"
+          : "☰";
     }
   );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Security utilities
+| Security helpers
 |--------------------------------------------------------------------------
 */
 
@@ -763,25 +765,7 @@ function escapeAttribute(value) {
 
 /*
 |--------------------------------------------------------------------------
-| Make functions available where needed
-|--------------------------------------------------------------------------
-*/
-
-window.increaseQty =
-  increaseQty;
-
-window.decreaseQty =
-  decreaseQty;
-
-window.removeItem =
-  removeItem;
-
-window.placeOrder =
-  placeOrder;
-
-/*
-|--------------------------------------------------------------------------
-| Events
+| Button event
 |--------------------------------------------------------------------------
 */
 
@@ -790,6 +774,12 @@ placeOrderButton.addEventListener(
   placeOrder
 );
 
+/*
+|--------------------------------------------------------------------------
+| Refresh when local storage changes
+|--------------------------------------------------------------------------
+*/
+
 window.addEventListener(
   "storage",
   displayCart
@@ -797,7 +787,7 @@ window.addEventListener(
 
 /*
 |--------------------------------------------------------------------------
-| Initial display
+| Initial page display
 |--------------------------------------------------------------------------
 */
 
